@@ -13,6 +13,8 @@ npm install grunt-hbs-configpoke --save-dev
 
 Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
+Sorry about the docs here.  Had to whip it out.  Will write up docs and maybe even test soon as I can.  In meantime if you need help don't hesitate to email me.
+
 ```js
 grunt.loadNpmTasks('grunt-hbs-configpoke');
 ```
