@@ -24,6 +24,8 @@ module.exports = function(grunt) {
 
       // Iterate over all specified file groups.
       this.files.forEach(function(f) {
+          //grunt.log.write(f);
+
           var output = "";
           var src = f.src.filter(function(filepath) {
               // Warn on and remove invalid source files (if nonull was set).
@@ -35,18 +37,34 @@ module.exports = function(grunt) {
               }
           }).map(function(filepath) {
 
-                  try {
-                      var compiledTemplate = Handlebars.compile(grunt.file.read(filepath));
-                      return output = compiledTemplate(options.context);
+              try {
+                  var compiledTemplate = Handlebars.compile(grunt.file.read(filepath));
 
-                  } catch (e) {
-                      grunt.log.error(e);
-                      grunt.fail.warn('Handlebars failed to compile '+filepath+'.');
+                  if(options.outputFormat === 'xml'){
+                    for(var key in options.context){
+                      options.context[key] = options.context[key].replace('&', '&amp;');
+                      options.context[key] = options.context[key].replace("'", '&apos;');
+                      options.context[key] = options.context[key].replace('"', '&quot;');
+                      options.context[key] = options.context[key].replace('<', '&lt;');
+                      options.context[key] = options.context[key].replace('>', '&gt;');
+                    }
+                  } else if(options.outputFormat === 'json'){
+                      for(var key in options.context){
+                        options.context[key] = options.context[key].replace('\\', '\\\\');
+                      }
                   }
-              }).join(grunt.util.normalizelf(options.separator));
 
+                  var output = compiledTemplate(options.context);
 
+                  grunt.log.write(output)
 
+                  return output;
+
+              } catch (e) {
+                  grunt.log.error(e);
+                  grunt.fail.warn('Handlebars failed to compile '+filepath+'.');
+              }
+          }).join(grunt.util.normalizelf(options.separator));
 
           grunt.file.write(f.dest, src);
           grunt.log.writeln('File ' + chalk.cyan(f.dest) + ' created.');
