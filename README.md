@@ -51,6 +51,11 @@ Default value: `'.'`
 
 A string value that is used to do something else with whatever else.
 
+#### options.outputFormat
+Type: `String`
+Default value: ``
+Possible values : ['xml', 'json']
+
 ### Usage Examples
 
 #### Default Options
@@ -68,7 +73,7 @@ grunt.initConfig({
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3 &`, the generated result in this case would be `Testing: 1 2 3 &amp; !!!`
 
 ```js
 grunt.initConfig({
@@ -76,6 +81,7 @@ grunt.initConfig({
     options: {
       separator: ': ',
       punctuation: ' !!!',
+      outputFormat: 'xml'
     },
     files: {
       'dest/default_options': ['src/testing', 'src/123'],
