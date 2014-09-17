@@ -94,4 +94,5 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+0.1.1 added ability to specify output type ( xml, json ) and excaped endcoded characters
+0.1.2 bug fix with string replace
