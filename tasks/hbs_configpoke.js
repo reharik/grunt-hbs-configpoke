@@ -24,7 +24,6 @@ module.exports = function(grunt) {
 
       // Iterate over all specified file groups.
       this.files.forEach(function(f) {
-          //grunt.log.write(f);
 
           var output = "";
           var src = f.src.filter(function(filepath) {
@@ -36,30 +35,23 @@ module.exports = function(grunt) {
                   return true;
               }
           }).map(function(filepath) {
-
               try {
                   var compiledTemplate = Handlebars.compile(grunt.file.read(filepath));
 
                   if(options.outputFormat === 'xml'){
                     for(var key in options.context){
-                      options.context[key] = options.context[key].replace('&', '&amp;');
-                      options.context[key] = options.context[key].replace("'", '&apos;');
-                      options.context[key] = options.context[key].replace('"', '&quot;');
-                      options.context[key] = options.context[key].replace('<', '&lt;');
-                      options.context[key] = options.context[key].replace('>', '&gt;');
+                      if(typeof options.context[key] === 'string')
+                        options.context[key] = options.context[key].replace('&', '&amp;').replace("'", '&apos;').replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;');
                     }
                   } else if(options.outputFormat === 'json'){
                       for(var key in options.context){
-                        options.context[key] = options.context[key].replace('\\', '\\\\');
+                        if(typeof options.context[key] === 'string'){
+                          options.context[key] = options.context[key].replace(/\\/g, '\\\\');  
+                        }
                       }
                   }
 
-                  var output = compiledTemplate(options.context);
-
-                  grunt.log.write(output)
-
-                  return output;
-
+                  return compiledTemplate(options.context);
               } catch (e) {
                   grunt.log.error(e);
                   grunt.fail.warn('Handlebars failed to compile '+filepath+'.');
