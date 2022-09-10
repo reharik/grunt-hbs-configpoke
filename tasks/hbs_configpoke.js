@@ -19,7 +19,8 @@ module.exports = function(grunt) {
       var options = this.options({
           punctuation: '.',
           separator: grunt.util.linefeed + grunt.util.linefeed,
-          context:{}
+          context:{},
+					deleteTemplate: false
       });
 
       // Iterate over all specified file groups.
@@ -51,7 +52,11 @@ module.exports = function(grunt) {
                       }
                   }
 
-                  return compiledTemplate(options.context);
+                  const result = compiledTemplate(options.context);
+									if(options.deleteTemplate) {
+										grunt.file.delete(filePath);
+									}
+									return result;
               } catch (e) {
                   grunt.log.error(e);
                   grunt.fail.warn('Handlebars failed to compile '+filepath+'.');
@@ -59,6 +64,7 @@ module.exports = function(grunt) {
           }).join(grunt.util.normalizelf(options.separator));
 
           grunt.file.write(f.dest, src);
+
           grunt.log.writeln('File ' + chalk.cyan(f.dest) + ' created.');
       });
   });
