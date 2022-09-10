@@ -1,11 +1,11 @@
 {
   "name": "grunt-hbs-configpoke",
   "description": "Take handlebars template, compile and render results to a file.  For use poking config files",
-  "version": "0.1.3",
+  "version": "0.1.2",
   "homepage": "https://github.com/reharik/grunt-hbs-configpoke",
   "author": {
     "name": "Raif Harik",
-    "email": "harik.raif@gmail.com"
+    "email": "reharik@gmail.com"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "handlebars": "~1.1.2",
+    "grunt-lib-contrib": "~0.5.1",
     "chalk": "~0.4.0"
   },
   "devDependencies": {
